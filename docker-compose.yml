@@ -1,0 +1,19 @@
+version: '3.8'
+services:
+  mongo:
+    image: mongo:7
+    restart: always
+    volumes:
+      - mongo_data:/data/db
+  app:
+    build: .
+    ports:
+      - "4000:4000"
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/anon_comments
+      - HMAC_SECRET=your_secret_here
+      - PORT=4000
+    depends_on:
+      - mongo
+volumes:
+  mongo_data:
